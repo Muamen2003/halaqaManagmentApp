@@ -1,4 +1,5 @@
 import React from 'react';
+import { Capacitor } from '@capacitor/core';
 import { useApp } from '../../context/AppContext';
 import { 
   Wifi, 
@@ -29,6 +30,41 @@ export const DeviceFrame: React.FC<DeviceFrameProps> = ({ children }) => {
     minute: '2-digit',
     hour12: false
   });
+
+  // The decorative phone mockup is useful in the browser preview only.
+  // In the installed Android app, render the real application edge-to-edge.
+  if (Capacitor.isNativePlatform()) {
+    return (
+      <div
+        className="w-full h-[100dvh] bg-[#F8FAF8] text-[#1B1C17] flex flex-col overflow-hidden"
+        dir="rtl"
+      >
+        <div className="flex-1 min-h-0 overflow-hidden flex flex-col">
+          {children}
+        </div>
+
+        <div className="fixed bottom-6 right-4 left-4 z-[9999] flex flex-col items-end gap-2 pointer-events-none">
+          {toasts.map(toast => (
+            <div
+              key={toast.id}
+              className={`pointer-events-auto max-w-md px-4 py-3 rounded-2xl shadow-xl border text-sm font-semibold flex items-center gap-2 ${
+                toast.type === 'success'
+                  ? 'bg-[#2E7D32] text-white border-[#1B5E20]'
+                  : toast.type === 'warning'
+                  ? 'bg-[#827717] text-white border-[#FFF9C4]'
+                  : toast.type === 'error'
+                  ? 'bg-[#C62828] text-white border-[#FFEBEE]'
+                  : 'bg-[#1B1C17] text-white border-[#5C615C]'
+              }`}
+            >
+              <Sparkles className="w-4 h-4 text-[#FFF9C4] shrink-0" />
+              <span>{toast.message}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-[#112015] text-[#1B1C17] flex flex-col items-center justify-start p-2 sm:p-4 md:p-6 overflow-x-hidden">
