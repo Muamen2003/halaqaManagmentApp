@@ -1,0 +1,6 @@
+{
+  "name": "إدارة حلقة التحفيظ",
+  "description": "تطبيق إدارة حلقة تحفيظ القرآن الكريم ومتابعة الحفظ والمراجعة اليومية والشهرية للطلاب بتصميم Material 3",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

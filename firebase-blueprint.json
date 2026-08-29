@@ -1,0 +1,139 @@
+{
+  "entities": {
+    "Halaqa": {
+      "title": "Halaqa",
+      "description": "Quran study circle / halaqa with mosque and city details.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "name": { "type": "string", "maxLength": 150 },
+        "mosqueName": { "type": "string", "maxLength": 150 },
+        "city": { "type": "string", "maxLength": 100 },
+        "description": { "type": "string", "maxLength": 1000 },
+        "isActive": { "type": "boolean" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" },
+        "createdBy": { "type": "string", "maxLength": 128 }
+      },
+      "required": ["id", "name", "mosqueName", "city", "isActive"]
+    },
+    "Teacher": {
+      "title": "Teacher",
+      "description": "Quran circle teacher profile with authentication and access privileges.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "name": { "type": "string", "maxLength": 150 },
+        "email": { "type": "string", "maxLength": 150 },
+        "phone": { "type": "string", "maxLength": 30 },
+        "title": { "type": "string", "maxLength": 100 },
+        "circleName": { "type": "string", "maxLength": 150 },
+        "mosqueName": { "type": "string", "maxLength": 150 },
+        "city": { "type": "string", "maxLength": 100 },
+        "role": { "type": "string", "enum": ["teacher", "assistant", "admin"] },
+        "halaqaIds": { "type": "string" },
+        "defaultHalaqaId": { "type": "string", "maxLength": 128 },
+        "active": { "type": "boolean" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["id", "name", "email", "active"]
+    },
+    "Student": {
+      "title": "Student",
+      "description": "Student enrolled in the Quran circle.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "halaqaId": { "type": "string", "maxLength": 128 },
+        "name": { "type": "string", "maxLength": 150 },
+        "age": { "type": "number" },
+        "guardianName": { "type": "string", "maxLength": 150 },
+        "guardianPhone": { "type": "string", "maxLength": 30 },
+        "level": { "type": "string", "maxLength": 100 },
+        "status": { "type": "string", "enum": ["نشط", "متعثر", "متميز", "منقطع"] },
+        "currentSurah": { "type": "number" },
+        "currentVerse": { "type": "number" },
+        "targetDailyAmount": { "type": "number" },
+        "totalJuz": { "type": "number" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" },
+        "createdBy": { "type": "string", "maxLength": 128 },
+        "active": { "type": "boolean" },
+        "deleted": { "type": "boolean" }
+      },
+      "required": ["id", "name", "age", "guardianPhone", "level", "status", "currentSurah", "currentVerse", "active", "deleted"]
+    },
+    "MemorizationRecord": {
+      "title": "MemorizationRecord",
+      "description": "Daily Quran recitation and memorization evaluation log.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "halaqaId": { "type": "string", "maxLength": 128 },
+        "studentId": { "type": "string", "maxLength": 128 },
+        "teacherId": { "type": "string", "maxLength": 128 },
+        "date": { "type": "string", "maxLength": 20 },
+        "surahNumber": { "type": "number" },
+        "fromVerse": { "type": "number" },
+        "toVerse": { "type": "number" },
+        "recordType": { "type": "string", "enum": ["حفظ جديد", "مراجعة صغرى", "مراجعة كبرى", "تلاوة وتجويد"] },
+        "rating": { "type": "string", "enum": ["ممتاز", "جيد جداً", "جيد", "مقبول", "إعادة"] },
+        "mistakesCount": { "type": "number" },
+        "alertsCount": { "type": "number" },
+        "hesitationCount": { "type": "number" },
+        "notes": { "type": "string", "maxLength": 1000 },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" },
+        "deviceId": { "type": "string", "maxLength": 128 },
+        "deleted": { "type": "boolean" }
+      },
+      "required": ["id", "studentId", "teacherId", "date", "surahNumber", "fromVerse", "toVerse", "recordType", "rating", "deleted"]
+    },
+    "Settings": {
+      "title": "Settings",
+      "description": "Quran circle global and halaqa settings.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "halaqaId": { "type": "string", "maxLength": 128 },
+        "circleName": { "type": "string", "maxLength": 150 },
+        "mosqueName": { "type": "string", "maxLength": 150 },
+        "city": { "type": "string", "maxLength": 100 },
+        "sessionDays": { "type": "string" },
+        "sessionStartTime": { "type": "string", "maxLength": 20 },
+        "sessionEndTime": { "type": "string", "maxLength": 20 },
+        "dailyMemorizationTarget": { "type": "string", "maxLength": 50 },
+        "enableWhatsAppNotifications": { "type": "boolean" },
+        "whatsAppTemplate": { "type": "string", "maxLength": 1000 },
+        "mushafType": { "type": "string", "maxLength": 100 },
+        "themeMode": { "type": "string", "maxLength": 20 },
+        "colorTheme": { "type": "string", "maxLength": 20 },
+        "updatedAt": { "type": "string" }
+      },
+      "required": ["id", "circleName", "mosqueName"]
+    }
+  },
+  "firestore": {
+    "/halaqas/{halaqaId}": {
+      "schema": { "$ref": "#/entities/Halaqa" },
+      "description": "Quran study halaqas collection."
+    },
+    "/teachers/{teacherId}": {
+      "schema": { "$ref": "#/entities/Teacher" },
+      "description": "Teacher profile and role configuration."
+    },
+    "/students/{studentId}": {
+      "schema": { "$ref": "#/entities/Student" },
+      "description": "Student roster with progress tracking."
+    },
+    "/memorization_records/{recordId}": {
+      "schema": { "$ref": "#/entities/MemorizationRecord" },
+      "description": "Daily recitation and memorization log."
+    },
+    "/settings/{settingId}": {
+      "schema": { "$ref": "#/entities/Settings" },
+      "description": "Circle and application configuration."
+    }
+  }
+}
